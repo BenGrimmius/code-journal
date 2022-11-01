@@ -2,8 +2,18 @@ var $photoInput = document.querySelector('.photo-input');
 
 var $img = document.querySelector('img');
 
+function isImageValid(url) {
+  return (url.match(/\.(jpeg|jpg|gif|png)$/) != null);
+}
+
 $photoInput.addEventListener('input', function (event) {
-  $img.attributes.src.textContent = event.target.value;
+  var valid = isImageValid(event.target.value);
+  if (valid) {
+    $img.attributes.src.textContent = event.target.value;
+  } else {
+    $img.attributes.src.textContent = 'images/placeholder-image-square.jpg';
+  }
+
 });
 
 var $form = document.querySelector('form');
