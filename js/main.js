@@ -71,3 +71,18 @@ window.addEventListener('DOMContentLoaded', function (event) {
     $entryList.append(list);
   }
 });
+
+var $entriesNav = document.querySelector('.entries-nav');
+var $new = document.querySelector('.new');
+var $entries = document.querySelector('.entries');
+var $button = document.querySelector('button');
+
+$entriesNav.addEventListener('click', function (event) {
+  $new.className = 'new hidden';
+  $entries.className = 'entries';
+});
+
+$button.addEventListener('click', function (event) {
+  $new.className = 'new';
+  $entries.className = 'entries hidden';
+});

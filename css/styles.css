@@ -90,3 +90,31 @@ ul {
 li {
   margin-bottom: 40px;
 }
+
+.hidden {
+  display: none;
+}
+
+.new,
+.entries {
+  margin-top: 20px;
+}
+
+h1,
+button {
+  display: inline;
+}
+
+button {
+  color: white;
+  background-color: #552b81;
+  border-radius: 0.2rem;
+  font-size: 25px;
+  padding: 5px 20px;
+  text-decoration: none;
+}
+
+.flex {
+  display: flex;
+  justify-content: space-between;
+}
