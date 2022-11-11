@@ -50,6 +50,7 @@ function renderEntries(entry) {
 
   var p = document.createElement('p');
   p.textContent = entry.notes;
+  p.className = 'text-box';
 
   li.appendChild(rowOneDiv);
   rowOneDiv.appendChild(img);
