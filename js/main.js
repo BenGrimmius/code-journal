@@ -38,8 +38,10 @@ function renderEntries(entry) {
   var rowOneDiv = document.createElement('div');
   rowOneDiv.setAttribute('class', 'row');
 
+  var imgColHalf = document.createElement('div');
+  imgColHalf.setAttribute('class', 'column-half');
+
   var img = document.createElement('img');
-  img.setAttribute('class', 'column-half');
   img.setAttribute('src', entry.photoURL);
 
   var colHalfDiv = document.createElement('div');
@@ -53,7 +55,8 @@ function renderEntries(entry) {
   p.className = 'text-box';
 
   li.appendChild(rowOneDiv);
-  rowOneDiv.appendChild(img);
+  rowOneDiv.appendChild(imgColHalf);
+  imgColHalf.appendChild(img);
   rowOneDiv.appendChild(colHalfDiv);
   colHalfDiv.appendChild(hThree);
   colHalfDiv.appendChild(p);

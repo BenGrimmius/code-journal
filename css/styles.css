@@ -125,11 +125,15 @@ button {
 
 img {
   object-fit: contain;
+  width: 100%;
 }
 
 .text-box {
   height: 100%;
   width: 100%;
   overflow-wrap: break-word;
-  overflow: scroll;
+}
+
+h3 {
+  margin-top: 0;
 }
