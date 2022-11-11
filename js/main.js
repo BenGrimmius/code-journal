@@ -1,22 +1,20 @@
 var $photoInput = document.querySelector('.photo-input');
-
 var $img = document.querySelector('img');
+var $form = document.querySelector('form');
+var $entriesNav = document.querySelector('.entries-nav');
+var $new = document.querySelector('.new');
+var $entries = document.querySelector('.entries');
+var $button = document.querySelector('button');
+var $entryList = document.querySelector('ul');
+var $noEntries = document.querySelector('.no-entries');
 
 function isImageValid(url) {
   return (url.match(/\.(jpeg|jpg|gif|png)$/) != null);
 }
 
-$photoInput.addEventListener('input', function (event) {
-  var valid = isImageValid(event.target.value);
-  if (valid) {
-    $img.attributes.src.textContent = event.target.value;
-  } else {
-    $img.attributes.src.textContent = 'images/placeholder-image-square.jpg';
-  }
-
-});
-
-var $form = document.querySelector('form');
+// $entryList.appendChild(noEntries);
+// noEntries.className = 'no-entries';
+// noEntries.textContent = 'No entries have been recorded';
 
 $form.addEventListener('submit', function (event) {
   event.preventDefault();
@@ -31,6 +29,10 @@ $form.addEventListener('submit', function (event) {
   $img.setAttribute('src', 'images/placeholder-image-square.jpg');
   var newEntry = renderEntries(submission);
   $entryList.prepend(newEntry);
+  $new.className = 'new hidden';
+  $entries.className = 'entries';
+  $noEntries.className = 'no-entries hidden';
+  data.view = 'entries';
 });
 
 function renderEntries(entry) {
@@ -63,7 +65,15 @@ function renderEntries(entry) {
 
 }
 
-var $entryList = document.querySelector('ul');
+$photoInput.addEventListener('input', function (event) {
+  var valid = isImageValid(event.target.value);
+  if (valid) {
+    $img.attributes.src.textContent = event.target.value;
+  } else {
+    $img.attributes.src.textContent = 'images/placeholder-image-square.jpg';
+  }
+
+});
 
 window.addEventListener('DOMContentLoaded', function (event) {
   for (var i = 0; i < data.entries.length; i++) {
@@ -72,17 +82,28 @@ window.addEventListener('DOMContentLoaded', function (event) {
   }
 });
 
-var $entriesNav = document.querySelector('.entries-nav');
-var $new = document.querySelector('.new');
-var $entries = document.querySelector('.entries');
-var $button = document.querySelector('button');
-
 $entriesNav.addEventListener('click', function (event) {
   $new.className = 'new hidden';
   $entries.className = 'entries';
+  data.view = 'entries';
 });
 
 $button.addEventListener('click', function (event) {
   $new.className = 'new';
   $entries.className = 'entries hidden';
+  data.view = 'entry-form';
 });
+
+if (data.entries.length === 0) {
+  $noEntries.className = 'no-entries';
+} else {
+  $noEntries.className = 'no-entries hidden';
+}
+
+if (data.view === 'entry-form') {
+  $entries.className = 'entries hidden';
+  $new.className = 'new';
+} else {
+  $entries.className = 'entries';
+  $new.className = 'new hidden';
+}

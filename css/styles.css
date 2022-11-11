@@ -91,10 +91,6 @@ li {
   margin-bottom: 40px;
 }
 
-.hidden {
-  display: none;
-}
-
 .new,
 .entries {
   margin-top: 20px;
@@ -117,4 +113,12 @@ button {
 .flex {
   display: flex;
   justify-content: space-between;
+}
+
+.no-entries {
+  text-align: center;
+  font-size: 1.5rem;
+  margin-top: 7rem;
+  font-weight: 100;
+  color: gray;
 }

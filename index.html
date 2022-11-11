@@ -25,7 +25,7 @@
         <h3 class="top">Code Journal <a class="entries-nav">Entries</a></h3>
       </div>
     </div>
-    <div data-view="entry-form" class="new">
+    <div data-view="entry-form" class="new hidden">
       <form>
         <div class="row">
           <div class="column-full">
@@ -64,11 +64,16 @@
         </div>
       </form>
     </div>
-    <div data-view="entries" class="entries hidden">
+    <div data-view="entries" class="entries">
       <div class="row">
         <div class="column-full flex">
-          <h1 id="Entries">Entries</h1>
+          <h1>Entries</h1>
           <button>New</button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="column-full">
+          <h3 class="no-entries">No entries have been recorded</h3>
         </div>
       </div>
       <ul>
