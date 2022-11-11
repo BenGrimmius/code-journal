@@ -12,10 +12,6 @@ function isImageValid(url) {
   return (url.match(/\.(jpeg|jpg|gif|png)$/) != null);
 }
 
-// $entryList.appendChild(noEntries);
-// noEntries.className = 'no-entries';
-// noEntries.textContent = 'No entries have been recorded';
-
 $form.addEventListener('submit', function (event) {
   event.preventDefault();
   var submission = {};
