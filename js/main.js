@@ -34,6 +34,7 @@ $form.addEventListener('submit', function (event) {
 function renderEntries(entry) {
 
   var li = document.createElement('li');
+  li.setAttribute('data-entry-id', data.nextEntryId);
 
   var rowOneDiv = document.createElement('div');
   rowOneDiv.setAttribute('class', 'row');
@@ -47,8 +48,23 @@ function renderEntries(entry) {
   var colHalfDiv = document.createElement('div');
   colHalfDiv.setAttribute('class', 'column-half');
 
+  var h3Row = document.createElement('div');
+  h3Row.setAttribute('class', 'row');
+  h3Row.setAttribute('class', 'flex');
+
   var hThree = document.createElement('h3');
   hThree.textContent = entry.title;
+
+  var editImageDiv = document.createElement('div');
+  editImageDiv.setAttribute('class', 'pen');
+
+  var faPen = document.createElement('i');
+  faPen.setAttribute('class', 'fa-sharp fa-solid fa-pen');
+  faPen.setAttribute('style', 'color: #552b81');
+  faPen.setAttribute('style', 'font-size: 30px');
+
+  var pRow = document.createElement('div');
+  pRow.setAttribute('class', 'row');
 
   var p = document.createElement('p');
   p.textContent = entry.notes;
@@ -58,8 +74,12 @@ function renderEntries(entry) {
   rowOneDiv.appendChild(imgColHalf);
   imgColHalf.appendChild(img);
   rowOneDiv.appendChild(colHalfDiv);
-  colHalfDiv.appendChild(hThree);
-  colHalfDiv.appendChild(p);
+  colHalfDiv.appendChild(h3Row);
+  h3Row.appendChild(hThree);
+  h3Row.appendChild(editImageDiv);
+  editImageDiv.appendChild(faPen);
+  colHalfDiv.appendChild(pRow);
+  pRow.appendChild(p);
 
   return li;
 
@@ -92,6 +112,15 @@ $button.addEventListener('click', function (event) {
   $new.className = 'new';
   $entries.className = 'entries hidden';
   data.view = 'entry-form';
+});
+
+$entryList.addEventListener('click', function (event) {
+  var selected = document.querySelector('li');
+  if (event.target.className === 'fa-sharp fa-solid fa-pen') {
+    $new.className = 'new';
+    $entries.className = 'entries hidden';
+    data.editing = selected;
+  }
 });
 
 if (data.entries.length === 0) {
