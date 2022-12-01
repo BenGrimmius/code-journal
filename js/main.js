@@ -44,6 +44,7 @@ function renderEntries(entry) {
 
   var img = document.createElement('img');
   img.setAttribute('src', entry.photoURL);
+  img.setAttribute('class', 'editPhoto');
 
   var colHalfDiv = document.createElement('div');
   colHalfDiv.setAttribute('class', 'column-half');
@@ -54,6 +55,7 @@ function renderEntries(entry) {
 
   var hThree = document.createElement('h3');
   hThree.textContent = entry.title;
+  hThree.setAttribute('class', 'editTitle');
 
   var editImageDiv = document.createElement('div');
   editImageDiv.setAttribute('class', 'pen');
@@ -68,7 +70,7 @@ function renderEntries(entry) {
 
   var p = document.createElement('p');
   p.textContent = entry.notes;
-  p.className = 'text-box';
+  p.setAttribute('class', 'editNotes');
 
   li.appendChild(rowOneDiv);
   rowOneDiv.appendChild(imgColHalf);
@@ -115,11 +117,25 @@ $button.addEventListener('click', function (event) {
 });
 
 $entryList.addEventListener('click', function (event) {
-  var selected = document.querySelector('li');
+  var selected = event.target.closest('li');
   if (event.target.className === 'fa-sharp fa-solid fa-pen') {
     $new.className = 'new';
     $entries.className = 'entries hidden';
     data.editing = selected;
+
+    var $formTitle = document.querySelector('.title');
+    var $editTitle = document.querySelector('.editTitle');
+    $formTitle.value = $editTitle.textContent;
+
+    var $placeHolder = document.querySelector('.place-holder');
+    var $formPhoto = document.querySelector('.photo-input');
+    var $editPhoto = document.querySelector('.editPhoto');
+    $formPhoto.value = $editPhoto.src;
+    $placeHolder.src = $editPhoto.src;
+
+    var $formNotes = document.querySelector('textarea');
+    var $editNotes = document.querySelector('.editNotes');
+    $formNotes.value = $editNotes.textContent;
   }
 });
 
