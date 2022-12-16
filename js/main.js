@@ -32,9 +32,8 @@ $form.addEventListener('submit', function (event) {
 });
 
 function renderEntries(entry) {
-
   var li = document.createElement('li');
-  li.setAttribute('data-entry-id', data.nextEntryId);
+  li.setAttribute('data-entry-id', entry.EntryID);
 
   var rowOneDiv = document.createElement('div');
   rowOneDiv.setAttribute('class', 'row');
@@ -117,11 +116,18 @@ $button.addEventListener('click', function (event) {
 });
 
 $entryList.addEventListener('click', function (event) {
-  var selected = event.target.closest('li');
+
   if (event.target.className === 'fa-sharp fa-solid fa-pen') {
     $new.className = 'new';
     $entries.className = 'entries hidden';
-    data.editing = selected;
+
+    var li = event.target.parentElement.parentElement.parentElement.parentElement.parentElement;
+    var liEntryID = li.getAttribute('data-entry-id');
+    for (var i = 0; i < data.entries.length; i++) {
+      if (liEntryID === data.entries[i].EntryID) {
+        data.editing = data.entries[i];
+      }
+    }
 
     var $formTitle = document.querySelector('.title');
     var $editTitle = document.querySelector('.editTitle');
