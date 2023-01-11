@@ -7,6 +7,8 @@ var $entries = document.querySelector('.entries');
 var $button = document.querySelector('button');
 var $entryList = document.querySelector('ul');
 var $noEntries = document.querySelector('.no-entries');
+var $entryTitle = document.querySelector('.entry-title');
+var $li = document.getElementsByTagName('li');
 
 function isImageValid(url) {
   return (url.match(/\.(jpeg|jpg|gif|png)$/) != null);
@@ -14,21 +16,51 @@ function isImageValid(url) {
 
 $form.addEventListener('submit', function (event) {
   event.preventDefault();
-  var submission = {};
-  submission.title = $form[0].value;
-  submission.photoURL = $form[1].value;
-  submission.notes = $form[2].value;
-  submission.EntryID = data.nextEntryId;
-  data.nextEntryId++;
-  data.entries.unshift(submission);
-  this.reset();
-  $img.setAttribute('src', 'images/placeholder-image-square.jpg');
-  var newEntry = renderEntries(submission);
-  $entryList.prepend(newEntry);
-  $new.className = 'new hidden';
-  $entries.className = 'entries';
-  $noEntries.className = 'no-entries hidden';
-  data.view = 'entries';
+  if (data.editing === null) {
+    var submission = {};
+    submission.title = $form[0].value;
+    submission.photoURL = $form[1].value;
+    submission.notes = $form[2].value;
+    submission.EntryID = data.nextEntryId;
+    data.nextEntryId++;
+    data.entries.unshift(submission);
+    this.reset();
+    $img.setAttribute('src', 'images/placeholder-image-square.jpg');
+    var newEntry = renderEntries(submission);
+    $entryList.prepend(newEntry);
+    $new.className = 'new hidden';
+    $entries.className = 'entries';
+    $noEntries.className = 'no-entries hidden';
+    data.view = 'entries';
+  } else {
+    var editedSubmission = {};
+    editedSubmission.title = $form[0].value;
+    editedSubmission.photoURL = $form[1].value;
+    editedSubmission.notes = $form[2].value;
+    editedSubmission.EntryID = data.editing.EntryID;
+    this.reset();
+    $img.setAttribute('src', 'images/placeholder-image-square.jpg');
+    var edited = renderEntries(editedSubmission);
+
+    for (var i = 0; i < data.entries.length; i++) {
+      if (editedSubmission.EntryID === data.entries[i].EntryID) {
+        data.entries.splice(i, 1, editedSubmission);
+      }
+    }
+
+    for (var x = 0; x < $li.length; x++) {
+      if (Number(edited.getAttribute('data-entry-ID')) === Number($li[x].attributes[0].value)) {
+        $li[x].replaceWith(edited);
+      }
+    }
+
+    $new.className = 'new hidden';
+    $entries.className = 'entries';
+    $noEntries.className = 'no-entries hidden';
+    data.view = 'entries';
+    $entryTitle.textContent = 'New Entry';
+    data.editing = null;
+  }
 });
 
 function renderEntries(entry) {
@@ -43,7 +75,6 @@ function renderEntries(entry) {
 
   var img = document.createElement('img');
   img.setAttribute('src', entry.photoURL);
-  img.setAttribute('class', 'editPhoto');
 
   var colHalfDiv = document.createElement('div');
   colHalfDiv.setAttribute('class', 'column-half');
@@ -54,7 +85,6 @@ function renderEntries(entry) {
 
   var hThree = document.createElement('h3');
   hThree.textContent = entry.title;
-  hThree.setAttribute('class', 'editTitle');
 
   var editImageDiv = document.createElement('div');
   editImageDiv.setAttribute('class', 'pen');
@@ -69,7 +99,6 @@ function renderEntries(entry) {
 
   var p = document.createElement('p');
   p.textContent = entry.notes;
-  p.setAttribute('class', 'editNotes');
 
   li.appendChild(rowOneDiv);
   rowOneDiv.appendChild(imgColHalf);
@@ -122,7 +151,7 @@ $entryList.addEventListener('click', function (event) {
     $entries.className = 'entries hidden';
 
     var li = event.target.parentElement.parentElement.parentElement.parentElement.parentElement;
-    var liEntryID = li.getAttribute('data-entry-id');
+    var liEntryID = Number(li.getAttribute('data-entry-id'));
     for (var i = 0; i < data.entries.length; i++) {
       if (liEntryID === data.entries[i].EntryID) {
         data.editing = data.entries[i];
@@ -130,18 +159,17 @@ $entryList.addEventListener('click', function (event) {
     }
 
     var $formTitle = document.querySelector('.title');
-    var $editTitle = document.querySelector('.editTitle');
-    $formTitle.value = $editTitle.textContent;
+    $formTitle.value = data.editing.title;
 
     var $placeHolder = document.querySelector('.place-holder');
     var $formPhoto = document.querySelector('.photo-input');
-    var $editPhoto = document.querySelector('.editPhoto');
-    $formPhoto.value = $editPhoto.src;
-    $placeHolder.src = $editPhoto.src;
+    $placeHolder.setAttribute('src', data.editing.photoURL);
+    $formPhoto.value = data.editing.photoURL;
 
     var $formNotes = document.querySelector('textarea');
-    var $editNotes = document.querySelector('.editNotes');
-    $formNotes.value = $editNotes.textContent;
+    $formNotes.value = data.editing.notes;
+
+    $entryTitle.textContent = 'Edit Entry';
   }
 });
 
