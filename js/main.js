@@ -16,7 +16,7 @@ function isImageValid(url) {
 
 $form.addEventListener('submit', function (event) {
   event.preventDefault();
-  if (data.editing === null) {
+  if (data.editing === null || $entryTitle.textContent === 'New Entry') {
     var submission = {};
     submission.title = $form[0].value;
     submission.photoURL = $form[1].value;
@@ -142,6 +142,11 @@ $button.addEventListener('click', function (event) {
   $new.className = 'new';
   $entries.className = 'entries hidden';
   data.view = 'entry-form';
+  $form[0].value = '';
+  $form[1].value = '';
+  $form[2].value = '';
+  $img.setAttribute('src', 'images/placeholder-image-square.jpg');
+  $entryTitle.textContent = 'New Entry';
 });
 
 $entryList.addEventListener('click', function (event) {
@@ -170,6 +175,7 @@ $entryList.addEventListener('click', function (event) {
     $formNotes.value = data.editing.notes;
 
     $entryTitle.textContent = 'Edit Entry';
+    data.view = 'entry-form';
   }
 });
 
