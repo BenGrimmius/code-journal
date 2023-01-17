@@ -9,6 +9,11 @@ var $entryList = document.querySelector('ul');
 var $noEntries = document.querySelector('.no-entries');
 var $entryTitle = document.querySelector('.entry-title');
 var $li = document.getElementsByTagName('li');
+var $deleteEntryBtn = document.querySelector('.delete-entry-btn');
+
+var $modalBG = document.querySelector('.modal-bg');
+var $cancelBtn = document.querySelector('.cancel-btn');
+var $confirmBtn = document.querySelector('.confirm-btn');
 
 function isImageValid(url) {
   return (url.match(/\.(jpeg|jpg|gif|png)$/) != null);
@@ -61,6 +66,7 @@ $form.addEventListener('submit', function (event) {
     $entryTitle.textContent = 'New Entry';
     data.editing = null;
   }
+  $deleteEntryBtn.classList.add('hidden');
 });
 
 function renderEntries(entry) {
@@ -136,6 +142,7 @@ $entriesNav.addEventListener('click', function (event) {
   $new.className = 'new hidden';
   $entries.className = 'entries';
   data.view = 'entries';
+  data.editing = null;
 });
 
 $button.addEventListener('click', function (event) {
@@ -147,6 +154,8 @@ $button.addEventListener('click', function (event) {
   $form[2].value = '';
   $img.setAttribute('src', 'images/placeholder-image-square.jpg');
   $entryTitle.textContent = 'New Entry';
+  data.editing = null;
+  $deleteEntryBtn.classList.add('hidden');
 });
 
 $entryList.addEventListener('click', function (event) {
@@ -176,6 +185,43 @@ $entryList.addEventListener('click', function (event) {
 
     $entryTitle.textContent = 'Edit Entry';
     data.view = 'entry-form';
+    $deleteEntryBtn.classList.remove('hidden');
+  }
+});
+
+$deleteEntryBtn.addEventListener('click', function (event) {
+  $modalBG.classList = 'modal-bg';
+});
+
+$cancelBtn.addEventListener('click', function (event) {
+  $modalBG.classList = 'modal-bg hidden';
+});
+
+$confirmBtn.addEventListener('click', function (event) {
+  for (var i = 0; i < data.entries.length; i++) {
+    if (data.editing.EntryID === data.entries[i].EntryID) {
+      data.entries.splice(i, 1);
+    }
+  }
+  for (var x = 0; x < $li.length; x++) {
+    if (data.editing.EntryID === Number($li[x].attributes[0].value)) {
+      $li[x].remove();
+    }
+  }
+  $modalBG.classList = 'modal-bg hidden';
+  $form[0].value = '';
+  $form[1].value = '';
+  $form[2].value = '';
+  $img.setAttribute('src', 'images/placeholder-image-square.jpg');
+
+  $new.className = 'new hidden';
+  $entries.className = 'entries';
+  data.view = 'entries';
+  $entryTitle.textContent = 'New Entry';
+  data.editing = null;
+
+  if (data.entries.length === 0) {
+    $noEntries.classList = 'no-entries';
   }
 });
 
